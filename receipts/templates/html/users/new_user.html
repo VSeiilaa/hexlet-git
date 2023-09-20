@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+</head>
+<header>     
+    <h1>Регистрация</h1>
+</header>
+<body>
+    <form action="{{ url_for('user_post')}}" method="post">
+        <label>
+            Ваше имя
+            <input type="text" required name="name" value="{{ user.name }}">
+        {% if errors %}
+            <div>{{ errors.name }}</div>
+        {% endif %}
+        </label>
+        <label>
+            Ваш пароль
+            <input type="text" required name="password" value="{{ user.password }}">
+        {% if errors %}
+            <div>{{ errors.password }}</div>
+        {% endif %}
+        </label>
+        <label>
+            О себе
+            <input type="text" name="summary" value="{{ user.summary}}">
+        {% if errors %}
+            <div>{{ errors.summary }}</div>
+        {% endif %}
+        </label>
+        <label>
+            Ваша картинка
+            <input type="text" name="image" value="{{ user.image }}">
+        {% if errors %}
+            <div>{{ errors.image }}</div>
+        {% endif %}
+        </label>
+
+        <input type="submit" value="Сохранить">
+    </form>
+</body>
+</html>

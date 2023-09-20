@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+
+        <title>{{ user.name }}</title>
+    </head>
+    <header>
+        <!-- Flash message -->
+        {% include "html/main/flash.html" %}
+        <nav>
+            <!-- Меню -->
+            <ul> 
+                <li><a href="/">Главная</a></li>
+                <li><a href="{{ url_for('book_create') }}" >Новый рецепт</a></li>
+                <li>
+                    {% if not current_user %}
+                    {% else %}
+                    <a href="{{ url_for('user_get', id=user.id)}}">
+                        <img src="{{ user.image }}" alt="{{ user.name }}" width="37.19" height="37.19">
+                    </a>
+                    {% endif %}
+                </li>   
+            </ul>
+        </nav>
+            <h1>Большая книга рецептов &#127752;</h1>
+        <p>Сборник любимых рецептов Большой Жабки</p>
+    </header>
+    <body>
+        <main>
+            {% if not current_user %}
+            <form action="{{ url_for('new_session') }}" method="post">
+                <label>
+                    Ваше имя
+                    <input type="text" required name="name" value="">
+                </label>
+                <br>
+                <label>
+                    Пароль
+                    <input type="password" required name="password" value="">
+                </label>
+                <input type="submit" value="Sign In">
+            </form>
+            
+            <div>
+                <br>
+                <b>Еще нет аккаунта?</b>
+                <br>
+                <a href="{{ url_for('user_create') }}">Зарегистрироваться</a>
+            </div>
+                {% else %}
+                <div class="content">
+                    <h2>Привет, я {{ user.name }} &#128520;</h2>
+                    <style>
+                        img {
+                            max-width: 300px;
+                            max-height: 300px;
+                        }
+                        </style>
+                        <img src="{{ user.image }}" alt="{{ user.name }}">
+                        
+                    <p>Делюсь рецептами с {{ user.time_created}}</p>
+                    <p>Обо мне: </p>
+                    <article class="recipe">{{ user.summary }}</article>
+                    <p>Мои рецепты</p>
+                    <details>
+                        <summary>Все мои рецепты</summary>
+                        {% if user.receipt_counter == 0 %}
+                        <p>Здесь пока нет ни одного рецепта!</p>
+                        <a href="{{ url_for('book_create') }}">Добавить</a>
+                        {% else %}
+                        <ul>
+                            {% for book in books %}
+                                {% include "html/books/pos.html" %}
+                                <br>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </details>
+                </div>
+
+                {% if user.id == current_user.id %}
+                <div class="editing_menu">
+                    <h3>Панель управления</h3>
+                    <form action="{{ url_for('user_edit', id=user.id) }}" method="get">
+                        <input type="submit" value="Настройки">
+                    </form>
+                    <form action="{{ url_for('delete_session') }}" method="post">
+                        <input type="submit" value="Выйти">
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </main>
+    </body>
+
+<style>
+    .recipe {
+        white-space: pre-wrap;
+        }
+</style>

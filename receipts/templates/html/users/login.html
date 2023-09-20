@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+
+        <title>Вход в аккаунт</title>
+    </head>
+    <header>
+        <nav>
+            <!-- Меню -->
+            <ul> 
+                <li><a href="/">Главная</a></li>
+                <li>
+                    <a href="{{ url_for('user_get', id='new_user')}}">
+                        <img src="https://i.ibb.co/9t5XjHY/photo-2022-07-30-21-15-32.jpg" alt="Логотип" width="37.19" height="37.19">
+                    </a>
+                </li>   
+            </ul>
+        </nav>
+            <h1>Большая книга рецептов &#127752;</h1>
+        <p>Сборник любимых рецептов Большой Жабки</p>
+    </header>
+
+        <!-- Flash message -->
+        {% include "html/main/flash.html" %}
+
+<form action="{{ url_for('new_session') }}" method="post">
+    <label>
+        Ваше имя
+        <input type="text" required name="name" value="">
+    </label>
+    <br>
+    <label>
+        Пароль
+        <input type="password" required name="password" value="">
+    </label>
+    <input type="submit" value="Sign In">
+</form>
+
+<div>
+    <br>
+    <b>Еще нет аккаунта?</b>
+    <br>
+    <a href="{{ url_for('user_create') }}">Зарегистрироваться</a>
+</div>
+
+</div>

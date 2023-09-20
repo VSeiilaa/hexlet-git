@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+    <meta charset="UTF-8">
+    <title>Книга рецептов Большой Жабки</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    </head>
+
+    <body>
+        <header>
+            {% include "html/main/flash.html" %}
+            <nav>
+                <!-- Меню -->
+                <ul>
+                    <li><a href="{{ url_for('user_get', id=user.id)}}">
+                        <img src="{{ user.image }}" alt="Логотип" width="37.19" height="37.19">
+                    </a></li>   
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/books">Книга рецептов</a></li> 
+                </ul>
+            </nav>
+            <h1>Привет {{ user.name }} &#128075;</h1>
+            <p>Здесь ты можешь обновить информацию о себе</p>
+        </header>
+
+        <form action="{{ url_for('user_patch', id=user.id) }}" method="post">
+            <div>
+                <p>
+                    <label>Новое имя</label>
+                    <input type="text" name="name" value="{{ user.name }}">
+                    {% if errors %}
+                    <div>{{ errors.name }}</div>
+                    {% endif %}
+                </p>
+                <p>
+                    <label>Новый пароль</label>
+                    <input type="text" name="password" value="{{ user.password}}">
+                    {% if errors %}
+                    <div>{{ errors.password }}</div>
+                    {% endif %}
+                </p>
+                <p>
+                    <label>Новая ссылка на фотографию</label>
+                    <input type="url" name="image" value="{{ user.image}}">
+                    {% if errors %}
+                    <div>{{ errors.image }}</div>
+                    {% endif %}
+                </p>
+                <p>
+                    <label>О себе</label>
+                    <textarea rows="6" name="summary" value="{{ user.summary }}"></textarea>
+                    {% if errors %}
+                    <div>{{ errors.summary }}</div>
+                    {% endif %}
+                </p>
+            </div>
+            <input type="submit" value="Обновить">
+        </form>
+        <form action="{{ url_for('user_delete', id=user.id) }}" method="post" 
+        onsubmit="return confirm('Вы уверены, что хотите удалить рецепт? Это действие нельзя обратить.')">
+            <input type="submit" value="Удалить аккаунт">
+        </form>
+        <form action="{{ url_for('route') }}" method="get">
+            <input type="submit" value="Выйти">
+        </form>
+    </body>
+</html>

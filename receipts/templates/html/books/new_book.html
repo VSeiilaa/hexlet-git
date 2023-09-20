@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <title>Новый рецепт</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+  </head>
+  <header>
+    <nav>
+        <!-- Меню -->
+        <ul>
+            <li><img src="https://i.ibb.co/9t5XjHY/photo-2022-07-30-21-15-32.jpg" alt="Логотип" width="37.19" height="37.19"> </li>
+            <li><a href="/">Главная</a></li>
+            <li><a href="{{ url_for('book_create') }}" >Новый рецепт</a></li>
+            {% if current_user %}
+            <a href="{{ url_for('user_get', id=current_user.id)}}">
+                <img src="{{ current_user.image }}" alt="Логотип" width="37.19" height="37.19">
+            </a>   
+            {% else %}
+            <a href="{{ url_for('user_get', id='new_user')}}">
+              <img src="https://i.ibb.co/9t5XjHY/photo-2022-07-30-21-15-32.jpg" alt="Логотип" width="37.19" height="37.19">
+            </a>
+          </li>
+            {% endif %}
+        </ul>
+    </nav>
+        <h1>Большая книга рецептов &#127752;</h1>
+    <p>Сборник любимых рецептов Большой Жабки</p>
+        <!-- Логотип сайта -->
+</header>
+  <body>
+    <h2>Новый рецепт &#127836;</h2>
+    <form action="/books" method="post">
+    <div>
+      <p>
+        <label>Название блюда</label>
+            <input type="text" name="name" value="{{ book.name }}">
+          {% if errors %}
+          <div>{{ errors.name }}</div>
+          {% endif %}
+      </p>
+      <p>
+        <label>Перечислите через пробел ингредиенты</label>
+          <input type="text" name="ingredients" value="{{ book.ingredients }}">
+        {% if errors %}
+        <div>{{ errors.name }}</div>
+        {% endif %}
+      </p>
+      <p>
+        <label>Добавьте ссылку на фотографию</label>
+          <input type="url" name="image" value="{{ book.image }}">
+        {% if errors %}
+        <div>{{ errors.name }}</div>
+        {% endif %}
+      </p>
+      <p>
+        <label>Инструкция приготовления</label>
+        <textarea rows="6" required name="summary" value="{{ book.summary }}"></textarea>
+      </p>
+      {% if errors %}
+      <div>{{ errors.summary }}</div>
+      {% endif %}
+      </div>
+    </div>
+    <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
+  
